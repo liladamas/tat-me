@@ -2,11 +2,12 @@ import { Suspense } from "react";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-
-// THIS IS THE FIX: Allows the route to block and skip pre-rendering
-export const instant = false;
+import { connection } from "next/server";
 
 async function BookingsTable() {
+  // THIS IS THE FIX: Waits for a real user request before running
+  await connection();
+
   const cookieStore = await cookies();
   const session = cookieStore.get("admin_session");
 

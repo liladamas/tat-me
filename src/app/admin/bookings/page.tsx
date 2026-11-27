@@ -3,6 +3,9 @@ import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
+// THIS IS THE FIX: Allows the route to block and skip pre-rendering
+export const instant = false;
+
 async function BookingsTable() {
   const cookieStore = await cookies();
   const session = cookieStore.get("admin_session");

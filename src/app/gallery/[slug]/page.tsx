@@ -3,8 +3,12 @@ import Link from "next/link";
 import { TATTOOS } from "@/data/tattoos";
 import { notFound } from "next/navigation";
 
-// THIS IS THE FIX: Allows the route to block on dynamic params
-export const instant = false;
+// THIS IS THE FIX: Tells Next.js which slugs to prerender at build time
+export async function generateStaticParams() {
+  return TATTOOS.map((tattoo) => ({
+    slug: tattoo.slug,
+  }));
+}
 
 export default async function TattooDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;

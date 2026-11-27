@@ -2,12 +2,11 @@ import { Suspense } from "react";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { connection } from "next/server";
+
+// THIS IS THE OFFICIAL NEXT.JS 16 FIX
+export const instant = false;
 
 async function BookingsTable() {
-  // THIS IS THE FIX: Waits for a real user request before running
-  await connection();
-
   const cookieStore = await cookies();
   const session = cookieStore.get("admin_session");
 

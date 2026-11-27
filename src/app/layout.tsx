@@ -3,7 +3,6 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import WhatsAppFloat from "@/components/ui/WhatsAppFloat";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -20,16 +19,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${playfair.variable} font-sans flex flex-col min-h-screen transition-colors duration-300`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <Navbar />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <Footer />
-          <WhatsAppFloat />
-        </ThemeProvider>
+    <html lang="en" className="dark" style={{ colorScheme: "dark" }} suppressHydrationWarning>
+      <body className={`${inter.variable} ${playfair.variable} font-sans flex flex-col min-h-screen bg-brand-black text-brand-white transition-colors duration-300`}>
+        <Navbar />
+        <main className="flex-grow">
+          {children}
+        </main>
+        <Footer />
+        <WhatsAppFloat />
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { UploadButton } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
+import { unstable_noStore as noStore } from "next/cache";
 
 export default function AdminContent() {
   const [videoUrl, setVideoUrl] = useState("");

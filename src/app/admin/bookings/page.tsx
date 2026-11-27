@@ -1,8 +1,11 @@
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { unstable_noStore as noStore } from "next/cache";
 
 export default async function AdminBookings() {
+  noStore(); // <--- THIS IS THE FIX: Forces dynamic rendering
+
   const cookieStore = await cookies();
   const session = cookieStore.get("admin_session");
 
@@ -18,7 +21,6 @@ export default async function AdminBookings() {
     <div className="min-h-screen bg-brand-white dark:bg-brand-black p-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         
-        {/* Admin Navigation Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div className="flex items-center gap-6">
             <h1 className="text-3xl font-serif font-bold text-brand-black dark:text-brand-white">Admin Dashboard</h1>
@@ -33,7 +35,6 @@ export default async function AdminBookings() {
           </a>
         </div>
         
-        {/* Bookings Table */}
         <div className="bg-gray-50 dark:bg-brand-charcoal border border-gray-200 dark:border-brand-gray/20 rounded-sm overflow-x-auto shadow-lg">
           <table className="w-full text-left text-sm text-gray-600 dark:text-brand-gray">
             <thead className="bg-gray-100 dark:bg-brand-black text-brand-black dark:text-brand-white uppercase tracking-wider text-xs">

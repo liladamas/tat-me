@@ -2,11 +2,12 @@ import { Suspense } from "react";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { cacheLife } from "next/cache";
 
-// THIS IS THE OFFICIAL NEXT.JS 16 FIX
-export const instant = false;
+async function getBookings() {
+  'use cache: private';
+  cacheLife({ stale: 60 }); // Cache for 60 seconds to avoid repeated DB hits
 
-async function BookingsTable() {
   const cookieStore = await cookies();
   const session = cookieStore.get("admin_session");
 
@@ -14,9 +15,13 @@ async function BookingsTable() {
     redirect("/admin/login");
   }
 
-  const bookings = await prisma.booking.findMany({
+  return prisma.booking.findMany({
     orderBy: { createdAt: "desc" },
   });
+}
+
+async function BookingsTable() {
+  const bookings = await getBookings();
 
   return (
     <div className="bg-gray-50 dark:bg-brand-charcoal border border-gray-200 dark:border-brand-gray/20 rounded-sm overflow-x-auto shadow-lg">
